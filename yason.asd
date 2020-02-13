@@ -27,7 +27,7 @@
     encoding and decoding data and does not impose any object model on
     the Common Lisp application that uses it."
 
-  :depends-on (:alexandria :trivial-gray-streams)
+  :depends-on (:trivial-gray-streams)
   :components ((:file "package")
 	       (:file "encode" :depends-on ("package"))
 	       (:file "parse" :depends-on ("package"))))

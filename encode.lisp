@@ -35,14 +35,16 @@
   defaults to *STANDARD-OUTPUT*."))
 
 (defparameter *char-replacements*
-  (alexandria:plist-hash-table
-   '(#\\ "\\\\"
-     #\" "\\\""
-     #\Backspace "\\b"
-     #\Page "\\f"
-     #\Newline "\\n"
-     #\Return "\\r"
-     #\Tab "\\t")))
+  (loop :with result = (make-hash-table)
+        :for (key value) :in '((#\\ "\\\\")
+                               (#\" "\\\"")
+                               (#\Backspace "\\b")
+                               (#\Page "\\f")
+                               (#\Newline "\\n")
+                               (#\Return "\\r")
+                               (#\Tab "\\t"))
+        :do (setf (gethash key result) value)
+        :finally (return result)))
 
 (defun unicode-code (char)
   (char-code char))
@@ -89,7 +91,7 @@
 (defmacro with-aggregate/object ((stream opening-char closing-char) &body body)
   "Set up serialization context for aggregate serialization with the
   object encoder."
-  (alexandria:with-gensyms (printed)
+  (let ((printed (gensym)))
     `(progn
        (write-delimiter ,opening-char ,stream)
        (change-indentation ,stream #'+)
