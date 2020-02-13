@@ -26,8 +26,6 @@
     lightweight alternative to XML.  YASON has the sole purpose of
     encoding and decoding data and does not impose any object model on
     the Common Lisp application that uses it."
-
-  :depends-on (:trivial-gray-streams)
   :components ((:file "package")
 	       (:file "encode" :depends-on ("package"))
 	       (:file "parse" :depends-on ("package"))))

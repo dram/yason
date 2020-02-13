@@ -213,7 +213,9 @@
   (write-string "null" stream)
   object)
 
-(defclass json-output-stream (trivial-gray-streams:fundamental-character-output-stream)
+(defclass json-output-stream
+    (#+sbcl sb-gray:fundamental-character-output-stream
+     #+ecl gray:fundamental-character-output-stream)
   ((output-stream :reader output-stream
                   :initarg :output-stream)
    (stack :accessor stack
@@ -238,7 +240,8 @@
       (make-instance 'json-output-stream :output-stream stream :indent indent)
       stream))
 
-(defmethod trivial-gray-streams:stream-write-char ((stream json-output-stream) char)
+(defmethod #+sbcl sb-gray:stream-write-char #+ecl gray:stream-write-char
+  ((stream json-output-stream) char)
   (write-char char (output-stream stream)))
 
 (defgeneric write-indentation (stream)
